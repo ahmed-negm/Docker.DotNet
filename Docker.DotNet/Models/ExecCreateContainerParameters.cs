@@ -9,4 +9,14 @@
 
         }
     }
+
+    public class ExecStartContainerParameters
+    {
+        public ExecStartContainerConfig Config { get; set; }
+
+        public ExecStartContainerParameters()
+        {
+
+        }
+    }
 }

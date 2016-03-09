@@ -91,4 +91,24 @@ namespace Docker.DotNet.Models
         {
         }
     }
+
+    [DataContract]
+    public class Config_V121
+    {
+        [DataMember(Name = "Image")]
+        public string Image { get; set; }
+
+        [DataMember(Name = "Cmd")]
+        public IList<string> Cmd { get; set; }
+        
+        [DataMember(Name = "HostConfig")]
+        public HostConfig_V121 HostConfig { get; set; }
+
+        [DataMember(Name = "ExposedPorts")]
+        public IDictionary<string, object> ExposedPorts { get; set; }
+
+        public Config_V121()
+        {
+        }
+    }
 }

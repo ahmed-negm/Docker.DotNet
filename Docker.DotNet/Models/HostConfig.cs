@@ -58,4 +58,22 @@ namespace Docker.DotNet.Models
         {
         }
     }
+
+    [DataContract]
+    public class HostConfig_V121
+    {
+        [DataMember(Name = "PublishAllPorts")]
+        public bool PublishAllPorts { get; set; }
+
+        [DataMember(Name = "Links")]
+        public IList<string> Links { get; set; }
+
+        [DataMember(Name = "PortBindings")]
+        public IDictionary<string, IList<PortBinding>> PortBindings;
+
+        public HostConfig_V121()
+        {
+
+        }
+    }
 }

@@ -12,7 +12,7 @@ namespace Docker.DotNet
 
         Task<ContainerResponse> InspectContainerAsync(string id);
 
-        Task<CreateContainerResponse> CreateContainerAsync(CreateContainerParameters parameters);
+        Task<CreateContainerResponse> CreateContainerAsync(CreateContainerParameters_V121 parameters);
 
         Task<ContainerProcessesResponse> ListProcessesAsync(string id, ListProcessesParameters parameters);
 
@@ -21,8 +21,10 @@ namespace Docker.DotNet
         Task<Stream> ExportContainerAsync(string id, CancellationToken cancellationToken);
 
         Task<ExecCreateContainerResponse> ExecCreateContainerAsync(string id, ExecCreateContainerParameters parameters);
+        
+        Task<Stream> ExecStartContainerAsync(string id, ExecStartContainerParameters parameters);
 
-        Task<bool> StartContainerAsync(string id, HostConfig hostConfig);
+        Task<bool> StartContainerAsync(string id, HostConfig_V121 hostConfig);
 
         Task<bool> StopContainerAsync(string id, StopContainerParameters parameters, CancellationToken cancellationToken);
 

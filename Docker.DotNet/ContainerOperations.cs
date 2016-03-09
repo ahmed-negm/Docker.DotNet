@@ -54,7 +54,7 @@ namespace Docker.DotNet
             return this.Client.JsonSerializer.DeserializeObject<ContainerResponse>(response.Body);
         }
 
-        public async Task<CreateContainerResponse> CreateContainerAsync(CreateContainerParameters parameters)
+        public async Task<CreateContainerResponse> CreateContainerAsync(CreateContainerParameters_V121 parameters)
         {
             IQueryString qs = null;
 
@@ -65,14 +65,14 @@ namespace Docker.DotNet
 
             if (!string.IsNullOrEmpty(parameters.ContainerName))
             {
-                qs = new QueryString<CreateContainerParameters>(parameters);
+                qs = new QueryString<CreateContainerParameters_V121>(parameters);
             }
 
             string path = "containers/create";
-            JsonRequestContent<Config> data = null;
+            JsonRequestContent<Config_V121> data = null;
             if (parameters.Config != null)
             {
-                data = new JsonRequestContent<Config>(parameters.Config, this.Client.JsonSerializer);
+                data = new JsonRequestContent<Config_V121>(parameters.Config, this.Client.JsonSerializer);
             }
             DockerApiResponse response = await this.Client.MakeRequestAsync(new[] {NoSuchContainerHandler}, HttpMethod.Post, path, qs, data).ConfigureAwait(false);
             return this.Client.JsonSerializer.DeserializeObject<CreateContainerResponse>(response.Body);
@@ -119,7 +119,7 @@ namespace Docker.DotNet
             return this.Client.JsonSerializer.DeserializeObject<FilesystemChange[]>(response.Body);
         }
 
-        public async Task<bool> StartContainerAsync(string id, HostConfig hostConfig)
+        public async Task<bool> StartContainerAsync(string id, HostConfig_V121 hostConfig)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -127,10 +127,10 @@ namespace Docker.DotNet
             }
 
             string path = string.Format(CultureInfo.InvariantCulture, "containers/{0}/start", id);
-            JsonRequestContent<HostConfig> data = null;
+            JsonRequestContent<HostConfig_V121> data = null;
             if (hostConfig != null)
             {
-                data = new JsonRequestContent<HostConfig>(hostConfig, this.Client.JsonSerializer);
+                data = new JsonRequestContent<HostConfig_V121>(hostConfig, this.Client.JsonSerializer);
             }
             DockerApiResponse response = await this.Client.MakeRequestAsync(new[] {NoSuchContainerHandler}, HttpMethod.Post, path, null, data).ConfigureAwait(false);
             return response.StatusCode != HttpStatusCode.NotModified;
@@ -151,6 +151,22 @@ namespace Docker.DotNet
             }
             DockerApiResponse response = await this.Client.MakeRequestAsync(new[] { NoSuchContainerHandler }, HttpMethod.Post, path, null, data).ConfigureAwait(false);
             return this.Client.JsonSerializer.DeserializeObject<ExecCreateContainerResponse>(response.Body);
+        }
+
+        public Task<Stream> ExecStartContainerAsync(string id, ExecStartContainerParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+
+            string path = string.Format(CultureInfo.InvariantCulture, "exec/{0}/start", id);
+            JsonRequestContent<ExecStartContainerConfig> data = null;
+            if (parameters.Config != null)
+            {
+                data = new JsonRequestContent<ExecStartContainerConfig>(parameters.Config, this.Client.JsonSerializer);
+            }
+            return this.Client.MakeRequestForStreamAsync(new[] { NoSuchContainerHandler }, HttpMethod.Post, path, null, data, new CancellationToken());
         }
 
         public async Task<bool> StopContainerAsync(string id, StopContainerParameters parameters, CancellationToken cancellationToken)

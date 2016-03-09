@@ -20,4 +20,13 @@ namespace Docker.DotNet.Models
         [DataMember(Name = "Cmd")]
         public IList<string> Cmd { get; set; }
     }
+
+    public class ExecStartContainerConfig
+    {
+        [DataMember(Name = "Detach")]
+        public bool? Detach { get; set; }
+
+        [DataMember(Name = "Tty")]
+        public bool? Tty { get; set; }
+    }
 }
