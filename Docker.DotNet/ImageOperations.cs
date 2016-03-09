@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -40,7 +41,8 @@ namespace Docker.DotNet
             string path = "images/json";
             IQueryString queryParameters = new QueryString<ListImagesParameters>(parameters);
             DockerApiResponse response = await this.Client.MakeRequestAsync(this.Client.NoErrorHandlers, HttpMethod.Get, path, queryParameters).ConfigureAwait(false);
-            return this.Client.JsonSerializer.DeserializeObject<ImageListResponse[]>(response.Body);
+            var images = this.Client.JsonSerializer.DeserializeObject<ImageListResponse[]>(response.Body);
+            return images.Where(I => I.GetName() != "<none>:<none>").ToList();
         }
 
         public async Task<ImageResponse> InspectImageAsync(string name)

@@ -28,5 +28,17 @@ namespace Docker.DotNet.Models
         public ImageListResponse()
         {
         }
+
+        public string GetName()
+        {
+            if(this.RepoTags != null && this.RepoTags.Count > 0)
+            {
+                return this.RepoTags[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
