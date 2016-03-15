@@ -71,6 +71,9 @@ namespace Docker.DotNet.Models
         [DataMember(Name = "PortBindings")]
         public IDictionary<string, IList<PortBinding>> PortBindings;
 
+        [DataMember(Name = "Memory")]
+        public long Memory { get; set; }
+
         public HostConfig_V121()
         {
 

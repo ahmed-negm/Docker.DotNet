@@ -34,9 +34,25 @@ namespace Docker.DotNet.Models
         [DataMember(Name = "Ports")]
         public IList<Port> Ports { get; set; }
 
-
         public ContainerListResponse()
         {
+        }
+
+        public string GetName()
+        {
+            if(this.Names != null && this.Names.Count > 0)
+            {
+                string name = this.Names[0];
+                if(name.StartsWith("/"))
+                {
+                    name = name.Substring(1);
+                }
+                return name;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
